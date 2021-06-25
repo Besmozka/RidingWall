@@ -7,7 +7,8 @@ public class WallController : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private bool _isGrounded;
-    private float _speed = 0.1f;
+    [SerializeField]
+    private float _speed;
 
     // Start is called before the first frame update
     void Start()
