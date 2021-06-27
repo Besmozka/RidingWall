@@ -2,7 +2,14 @@ using UnityEngine;
 
 public class PlayerRigsController : MonoBehaviour
 {
-    private float changePositionSpeed = 3f;
+    public float changePositionSpeed = 3f;
+
+    float armMinY = -4f;
+    float armMaxY = 4f;
+    float armMaxX = 1;
+    float legMaxY = 1;
+    float legMaxX = 2;
+    float legMaxZ = 1;
 
     [SerializeField]
     private GameObject leftArmTarget;
@@ -17,25 +24,90 @@ public class PlayerRigsController : MonoBehaviour
     [SerializeField]
     private GameObject rigthLegTarget;
 
+    public PlayerPose playerPose;
 
-    private void MoveLeftArm(Transform point)
+
+    private void Update()
     {
-        leftArmTarget.transform.Translate(point.position * changePositionSpeed * Time.fixedDeltaTime);
+        if (playerPose != null)
+        {
+            SetPose(playerPose);
+        }
     }
 
-    private void MoveRigthArm(Transform point)
+
+    public void SetPose(PlayerPose pose)
     {
-        rigthArmTarget.transform.Translate(point.position * changePositionSpeed * Time.fixedDeltaTime);
+        MoveRig(pose.LeftArmPoint, leftLegTarget);
+        MoveRig(pose.RigthArmPoint, leftArmTarget);
+        MoveRig(pose.LeftLegPoint, rigthLegTarget);
+        MoveRig(pose.RigthLegPoint, rigthArmTarget);
     }
 
-    private void MoveLeftLeg(Transform point)
+    private void MoveRig(Vector3 point, GameObject rig)
     {
-        leftLegTarget.transform.Translate(point.position * changePositionSpeed * Time.fixedDeltaTime);
+        rig.transform.localPosition = Vector3.MoveTowards(rig.transform.localPosition, point, Time.deltaTime * changePositionSpeed);
     }
 
-    private void MoveRigthLeg(Transform point)
+    public void ResetPose()
     {
-        rigthLegTarget.transform.Translate(point.position * changePositionSpeed * Time.fixedDeltaTime);
+        leftArmTarget.transform.localPosition = Vector3.zero;
+        rigthArmTarget.transform.localPosition = Vector3.zero;
+        leftHandTarget.transform.localPosition = Vector3.zero;
+        rigthHandTarget.transform.localPosition = Vector3.zero;
+        leftLegTarget.transform.localPosition = Vector3.zero;
+        rigthLegTarget.transform.localPosition = Vector3.zero;
+        playerPose = null;
+    }
+
+    public PlayerPose NewPose()
+    {
+        Vector3 leftArmPoint = new Vector3
+        {
+            x = -Random.Range(0, armMaxX),
+            y = Random.Range(armMinY, armMaxY),
+            z = 0
+        };
+
+        Vector3 rigthArmPoint = new Vector3
+        {
+            x = Random.Range(0, armMaxX),
+            y = Random.Range(armMinY, armMaxY),
+            z = 0
+        };
+
+        Vector3 leftLegPoint = Vector3.zero;
+        Vector3 rigthLegPoint = Vector3.zero;
+
+        if (Random.Range(-1, 1) >= 0)
+        {
+            leftLegPoint = new Vector3
+            {
+                x = -Random.Range(0f, legMaxX),
+                y = Random.Range(0f, legMaxY),
+                z = Random.Range(0, legMaxZ)
+            };
+        }
+        else
+        {
+            rigthLegPoint = new Vector3
+            {
+                x = Random.Range(0f, legMaxX),
+                y = Random.Range(0f, legMaxY),
+                z = Random.Range(0, legMaxZ)
+            };
+        }
+
+        PlayerPose playerPose = new PlayerPose(leftArmPoint, rigthArmPoint, leftLegPoint, rigthLegPoint, leftArmPoint, rigthArmPoint);
+        return playerPose;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Wall")
+        {
+            ResetPose();
+        }
     }
 }
 
