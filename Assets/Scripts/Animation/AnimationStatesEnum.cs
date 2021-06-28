@@ -9,5 +9,8 @@ using UnityEngine;
         Soccer,
         HipHop,
         Dodge,
-        Angry
+        Angry,
+        Capo,
+        Bboy,
+        Female
     }
