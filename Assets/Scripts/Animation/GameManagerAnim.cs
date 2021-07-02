@@ -8,28 +8,18 @@ public class GameManagerAnim : MonoBehaviour
     [SerializeField]
     private DrawDetector _drawDetector;
     [SerializeField]
-    private PlayerAnimController _player;
-    [SerializeField]
-    private PlayerAnimController _playerGhost;
-    [SerializeField]
-    private WallController _wallController;
+    private LevelsManager _levelsManager;
 
     public GesturePattern[] patterns;
     private GesturePattern _currentGesturePattern;
 
-    private int _animationState;
     private bool isSuccess = false;
 
 
     private void Start()
-    {
-        _animationState = NextIndexAnimation();
-        _playerGhost.NextPose(_animationState);
-
+    {        
         _currentGesturePattern = GetGesturePattern();
         _gestureReference.pattern = _currentGesturePattern;
-
-        _wallController.WallInvisible += ThrowNewWall;
     }
 
 
@@ -45,12 +35,7 @@ public class GameManagerAnim : MonoBehaviour
     }
 
     private void ThrowNewWall()
-    {
-        _animationState = NextIndexAnimation();
-        _playerGhost.NextPose(_animationState);
-
-        _wallController.Back();
-
+    {     
         _currentGesturePattern = GetGesturePattern();
         _gestureReference.pattern = _currentGesturePattern;
 
@@ -61,14 +46,9 @@ public class GameManagerAnim : MonoBehaviour
 
     private void Success()
     {        
-        _player.NextPose(_animationState);
+        //_player.NextPose(_animationState);
         isSuccess = true;
         _drawDetector.ClearLines();
-    }
-
-    private int NextIndexAnimation()
-    {
-        return Random.Range(1, 8);
     }
 
     private GesturePattern GetGesturePattern()

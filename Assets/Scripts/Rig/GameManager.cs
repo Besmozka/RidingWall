@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
 
         _currentGesturePattern = GetGesturePattern();
         _gestureReference.pattern = _currentGesturePattern;
-
-        _wallController.WallInvisible += ThrowNewWall;
     }
 
 
@@ -52,8 +50,6 @@ public class GameManager : MonoBehaviour
 
         _playerPose = _playerGhost.NewPose();
         _playerGhost.playerPose = _playerPose;
-
-        _wallController.Back();
 
         _currentGesturePattern = GetGesturePattern();
         _gestureReference.pattern = _currentGesturePattern;

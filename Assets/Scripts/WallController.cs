@@ -11,15 +11,10 @@ public class WallController : MonoBehaviour
     [SerializeField]
     private float _speed;
 
-    private Vector3 _beginPosition;
-
-    public Action WallInvisible;
-
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _beginPosition = transform.position;
     }
 
     void Update()
@@ -33,33 +28,31 @@ public class WallController : MonoBehaviour
         }
     }
 
+    internal void StopMove()
+    {
+        _isGrounded = false;
+        _rigidbody.velocity = Vector3.zero;
+    }
+    internal void BackToOrigin(GameObject origin)
+    {
+        _rigidbody.position = origin.transform.position;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        IsGroundedUpate(collision, true);
+        IsGroundedUpdate(collision, true);
     }
 
     void OnCollisionExit(Collision collision)
     {
-        IsGroundedUpate(collision, false);
+        IsGroundedUpdate(collision, false);
     }
 
-    internal void Back()
-    {
-        _isGrounded = false;
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.position = _beginPosition;
-    }
-
-    private void IsGroundedUpate(Collision collision, bool value)
+    private void IsGroundedUpdate(Collision collision, bool value)
     {
         if (collision.gameObject.tag == ("Ground"))
         {
             _isGrounded = value;
         }
-    }
-
-    private void OnBecameInvisible()
-    {
-        WallInvisible.Invoke();
     }
 }
