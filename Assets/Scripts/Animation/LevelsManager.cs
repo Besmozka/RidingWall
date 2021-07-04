@@ -35,6 +35,7 @@ public class LevelsManager : MonoBehaviour
         _playerGhost.NextPose(_animationState);
 
         _wallsArray = new Queue<WallController>();
+        _canCreate = true;
     }
 
     private void Update()
@@ -47,7 +48,7 @@ public class LevelsManager : MonoBehaviour
 
     private void CreateNewWall()
     {
-        var wall = Instantiate(_wallPrefab, transform.position, _wallPrefab.transform.rotation)
+        var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
             .GetComponent<WallController>();
         _wallsArray.Enqueue(wall);
         _canCreate = false;
