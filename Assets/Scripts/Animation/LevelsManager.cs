@@ -6,15 +6,11 @@ using UnityEngine;
 public class LevelsManager : MonoBehaviour
 {
     private Level _level;
-    private int _animationState;
+    public int animationState;
 
     private float _delayWall;
     private bool _canCreate;
 
-    [SerializeField]
-    private PlayerAnimController _player;
-    [SerializeField]
-    private PlayerAnimController _playerGhost;
     [SerializeField]
     private GameObject _wallPrefab;
 
@@ -27,8 +23,7 @@ public class LevelsManager : MonoBehaviour
 
         _delayWall = 5f;
 
-        _animationState = NextIndexAnimation();
-        _playerGhost.NextPose(_animationState);
+        animationState = NextIndexAnimation();
 
         _canCreate = true;
     }
@@ -39,12 +34,27 @@ public class LevelsManager : MonoBehaviour
         {
             CreateNewWall();
         }
+
+        if (_level.LevelNumber == 10)
+        {
+            EndRound();
+            _level = new Level();
+        }
+    }
+
+    private void EndRound()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void CreateNewWall()
     {
-        Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation);
         _canCreate = false;
+        animationState = NextIndexAnimation();
+        var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
+            .GetComponent<WallController>();
+        wall.playerGhost.NextPose(animationState);
+        wall.SetSpeed(_level.WallSpeed);        
     }
 
     private int NextIndexAnimation()

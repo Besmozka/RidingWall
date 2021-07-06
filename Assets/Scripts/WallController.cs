@@ -6,17 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class WallController : MonoBehaviour
 {
-    private PlayerAnimController _playerGhost;
+    internal PlayerAnimController playerGhost;
     private Rigidbody _rigidbody;
     private bool _isGrounded;
     [SerializeField]
     private float _speed;
 
 
-    void Start()
+    void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _playerGhost = GetComponentInChildren<PlayerAnimController>();
+        playerGhost = GetComponentInChildren<PlayerAnimController>();
     }
 
     void Update()
@@ -30,17 +30,7 @@ public class WallController : MonoBehaviour
         }
     }
 
-    
-
-    //internal void StopMove()
-    //{
-    //    _isGrounded = false;
-    //    _rigidbody.velocity = Vector3.zero;
-    //}
-    //internal void BackToOrigin(GameObject origin)
-    //{
-    //    _rigidbody.position = origin.transform.position;
-    //}
+    public void SetSpeed(int speed) => _speed = speed;
 
     void OnCollisionEnter(Collision collision)
     {

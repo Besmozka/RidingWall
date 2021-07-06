@@ -1,4 +1,5 @@
 using GestureRecognizer;
+using System.Collections;
 using UnityEngine;
 
 public class GameManagerAnim : MonoBehaviour
@@ -9,17 +10,22 @@ public class GameManagerAnim : MonoBehaviour
     private DrawDetector _drawDetector;
     [SerializeField]
     private LevelsManager _levelsManager;
+    [SerializeField]
+    private GameObject _winMark;
+    [SerializeField]
+    private GameObject _failMark;
+    [SerializeField]
+    private PlayerAnimController _player;
 
     public GesturePattern[] patterns;
-    private GesturePattern _currentGesturePattern;
 
-    private bool isSuccess = false;
 
 
     private void Start()
     {        
-        _currentGesturePattern = GetGesturePattern();
-        _gestureReference.pattern = _currentGesturePattern;
+        StartCoroutine(GetGesturePattern());
+        _winMark?.SetActive(false);
+        _failMark?.SetActive(false);
     }
 
 
@@ -27,32 +33,39 @@ public class GameManagerAnim : MonoBehaviour
     {
         if (result != RecognitionResult.Empty)
         {
-            if (result.gesture.id == _currentGesturePattern.id)
+            if (result.gesture.id == _gestureReference.pattern.id)
             {
                 Success();
+            } 
+            else
+            {
+                StartCoroutine(ShowMark(_failMark));
             }
         }
     }
 
-    private void ThrowNewWall()
-    {     
-        _currentGesturePattern = GetGesturePattern();
-        _gestureReference.pattern = _currentGesturePattern;
+    private void Success()
+    {                
+        _player.NextPose(_levelsManager.animationState);
+        _drawDetector.ClearLines();
 
+        StartCoroutine(GetGesturePattern());
+        StartCoroutine(ShowMark(_winMark));
+    }
+
+    private IEnumerator GetGesturePattern()
+    {
+        _gestureReference.pattern = patterns[Random.Range(0, patterns.Length - 1)];
         _drawDetector.ClearLines();
         _gestureReference.enabled = false;
+        yield return new WaitForSeconds(1f);
         _gestureReference.enabled = true;
     }
 
-    private void Success()
-    {        
-        //_player.NextPose(_animationState);
-        isSuccess = true;
-        _drawDetector.ClearLines();
-    }
-
-    private GesturePattern GetGesturePattern()
+    private IEnumerator ShowMark(GameObject mark)
     {
-        return patterns[Random.Range(0, patterns.Length - 1)];
+        mark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        mark.SetActive(false);
     }
 }
