@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class WallController : MonoBehaviour
 {
+    private PlayerAnimController _playerGhost;
     private Rigidbody _rigidbody;
     private bool _isGrounded;
     [SerializeField]
@@ -15,6 +16,7 @@ public class WallController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _playerGhost = GetComponentInChildren<PlayerAnimController>();
     }
 
     void Update()
@@ -28,15 +30,17 @@ public class WallController : MonoBehaviour
         }
     }
 
-    internal void StopMove()
-    {
-        _isGrounded = false;
-        _rigidbody.velocity = Vector3.zero;
-    }
-    internal void BackToOrigin(GameObject origin)
-    {
-        _rigidbody.position = origin.transform.position;
-    }
+    
+
+    //internal void StopMove()
+    //{
+    //    _isGrounded = false;
+    //    _rigidbody.velocity = Vector3.zero;
+    //}
+    //internal void BackToOrigin(GameObject origin)
+    //{
+    //    _rigidbody.position = origin.transform.position;
+    //}
 
     void OnCollisionEnter(Collision collision)
     {

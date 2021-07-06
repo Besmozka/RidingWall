@@ -17,10 +17,6 @@ public class LevelsManager : MonoBehaviour
     private PlayerAnimController _playerGhost;
     [SerializeField]
     private GameObject _wallPrefab;
-    [SerializeField]
-    private Queue<WallController> _wallsArray;
-
-    private BoxCollider _collider;
 
     public GameObject spawnPoint;
 
@@ -34,7 +30,6 @@ public class LevelsManager : MonoBehaviour
         _animationState = NextIndexAnimation();
         _playerGhost.NextPose(_animationState);
 
-        _wallsArray = new Queue<WallController>();
         _canCreate = true;
     }
 
@@ -48,9 +43,7 @@ public class LevelsManager : MonoBehaviour
 
     private void CreateNewWall()
     {
-        var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
-            .GetComponent<WallController>();
-        _wallsArray.Enqueue(wall);
+        Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation);
         _canCreate = false;
     }
 
@@ -63,8 +56,8 @@ public class LevelsManager : MonoBehaviour
     {
         if (other.tag == "Wall")
         {
-            var wall = _wallsArray.Dequeue();
-            wall.StopMove();
+            _level.NextLevel();
+            Destroy(other.gameObject);
             _canCreate = true;
         }
     }
