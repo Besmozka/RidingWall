@@ -1,44 +1,53 @@
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animation))]
 public class PlayerAnimController : MonoBehaviour
-{
-    private Animator _animator;
+{  
+    public Animation animation;
 
-    private float animationTime;
+    private int _currentClip;
+    public AnimationClip idleClip;
+    public AnimationClip[] animations;
 
-    public float AnimationTime { get => animationTime; set => animationTime = value; }
+    internal int AnimationCount { get => animations.Length; }
+
+    private float _animationTime;
+    public float AnimationTime { get => _animationTime; set => _animationTime = value; }
 
     void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _animator.SetInteger("AnimationState", (int)AnimationState.Idle);
+        animation = GetComponent<Animation>();
+        animation.AddClip(idleClip, "Idle");
+        animation.Play("Idle");
+        for (int i = 0; i < animations.Length; i++)
+        {
+            animation.AddClip(animations[0], i.ToString());
+        }
     }
 
-    public void NextPose(int animationIndex)
+    public void NextPose()
     {
-        _animator.SetInteger("AnimationState", animationIndex);
-        animationTime = TimeFromAnimation();
         StartCoroutine(TakePose());
     }
 
     private IEnumerator TakePose()
     {
-        yield return new WaitForSecondsRealtime(animationTime);
-        _animator.speed = 0;
-    }
-    
-    public float TimeFromAnimation()
-    {
-        var currentStateInfo = _animator.GetCurrentAnimatorStateInfo(default);
-        return currentStateInfo.length / 3;
+        animation.Play(_currentClip.ToString());
+        yield return new WaitForSecondsRealtime(_animationTime);
+        animation.Stop();
     }
 
     private void OnTriggerExit(Collider other)
     {
-            _animator.speed = 1;
-            _animator.SetInteger("AnimationState", (int)AnimationState.Idle);
+        animation.Play("Idle");
+    }
+
+    public void NextAnimation(int animationIndex)
+    {
+        _currentClip = animationIndex;
+        _animationTime = animation.GetClip(_currentClip.ToString()).length / 2;
+        NextPose();
     }
 }

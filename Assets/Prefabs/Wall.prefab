@@ -165,8 +165,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 358711092674800988}
-  - component: {fileID: 247940610271217809}
   - component: {fileID: 1130884517262784487}
+  - component: {fileID: 3389802211788507557}
   - component: {fileID: 1130884517262784480}
   m_Layer: 0
   m_Name: PlayerGhost
@@ -192,25 +192,6 @@ Transform:
   m_Father: {fileID: 4851101990053581839}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &247940610271217809
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130884517262784486}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 788431a9b5b20b545ab92f859deb9792, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1130884517262784487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +204,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db948a8f07c97741a3a385375e67510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animation: {fileID: 3389802211788507557}
+  idleClip: {fileID: -203655887218126122, guid: 8b4541de6d474de42bf0fa3b58ca22e7, type: 3}
+  animations:
+  - {fileID: -203655887218126122, guid: 88f103c0350646040ab8f50cd6ace0f1, type: 3}
+  - {fileID: -203655887218126122, guid: 434a45a042838b0429d0ff75e9b3d11f, type: 3}
+  - {fileID: -203655887218126122, guid: d43fcd43792e35345abc10e4ce64123c, type: 3}
+  - {fileID: -203655887218126122, guid: 3ce80e650d2e93d41b0afbc82f3e67bf, type: 3}
+  - {fileID: -203655887218126122, guid: 973a6c4d7da4f3e4f879f22146f34b12, type: 3}
+  - {fileID: -203655887218126122, guid: 3d23201038d476445a73cdef11126bc8, type: 3}
+  - {fileID: -203655887218126122, guid: c832fd40a72bf4d44bfdefc89aa1b21e, type: 3}
+  - {fileID: -203655887218126122, guid: 00b4522de54c5f54b88c4b132f1534e2, type: 3}
+--- !u!111 &3389802211788507557
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130884517262784486}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!136 &1130884517262784480
 CapsuleCollider:
   m_ObjectHideFlags: 0

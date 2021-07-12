@@ -1,29 +1,26 @@
-using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class LevelsManager : MonoBehaviour
 {
     private Level _level;
-    public int animationState;
 
-    private float _delayWall;
     private bool _canCreate;
 
     [SerializeField]
     private GameObject _wallPrefab;
+    [SerializeField]
+    private PlayerAnimController _player;
 
     public GameObject spawnPoint;
 
+    internal Level Level { get => _level; set => _level = value; }
 
     private void Start()
     {
-        _level = new Level();
-
-        _delayWall = 5f;
-
-        animationState = NextIndexAnimation();
+        _player.animation.playAutomatically = false;
+        Level = new Level();
 
         _canCreate = true;
     }
@@ -35,38 +32,36 @@ public class LevelsManager : MonoBehaviour
             CreateNewWall();
         }
 
-        if (_level.LevelNumber == 10)
+        if (Level.LevelNumber == 10)
         {
             EndRound();
-            _level = new Level();
+            Level = new Level();
         }
     }
 
     private void EndRound()
     {
-        throw new System.NotImplementedException();
+
+        Debug.Log("EndRound");
     }
 
     private void CreateNewWall()
     {
         _canCreate = false;
-        animationState = NextIndexAnimation();
         var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
             .GetComponent<WallController>();
-        wall.playerGhost.NextPose(animationState);
-        wall.SetSpeed(_level.WallSpeed);        
-    }
+        wall.SetSpeed(Level.WallSpeed);
 
-    private int NextIndexAnimation()
-    {
-        return Random.Range(1, 8);
+        var nextAnimationIndex = Random.Range(0, _player.AnimationCount);
+        wall.playerGhost.NextAnimation(nextAnimationIndex);
+        _player.NextAnimation(nextAnimationIndex);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Wall")
         {
-            _level.NextLevel();
+            Level.NextLevel();
             Destroy(other.gameObject);
             _canCreate = true;
         }

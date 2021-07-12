@@ -14,15 +14,12 @@ public class GameManagerAnim : MonoBehaviour
     private GameObject _winMark;
     [SerializeField]
     private GameObject _failMark;
-    [SerializeField]
-    private PlayerAnimController _player;
 
     public GesturePattern[] patterns;
 
 
-
     private void Start()
-    {        
+    {
         StartCoroutine(GetGesturePattern());
         _winMark?.SetActive(false);
         _failMark?.SetActive(false);
@@ -46,7 +43,6 @@ public class GameManagerAnim : MonoBehaviour
 
     private void Success()
     {                
-        _player.NextPose(_levelsManager.animationState);
         _drawDetector.ClearLines();
 
         StartCoroutine(GetGesturePattern());

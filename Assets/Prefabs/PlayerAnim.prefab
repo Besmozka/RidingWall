@@ -851,6 +851,7 @@ GameObject:
   - component: {fileID: 3237351997204164269}
   - component: {fileID: 3127709260503501664}
   - component: {fileID: 2857167627098338326}
+  - component: {fileID: 3780697281704423998}
   m_Layer: 0
   m_Name: PlayerAnim
   m_TagString: Player
@@ -883,7 +884,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2857167627098338327}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 788431a9b5b20b545ab92f859deb9792, type: 2}
   m_CullingMode: 0
@@ -906,6 +907,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db948a8f07c97741a3a385375e67510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animation: {fileID: 3780697281704423998}
+  idleClip: {fileID: -203655887218126122, guid: 8b4541de6d474de42bf0fa3b58ca22e7, type: 3}
+  animations: []
+--- !u!111 &3780697281704423998
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857167627098338327}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: -203655887218126122, guid: 3ce80e650d2e93d41b0afbc82f3e67bf, type: 3}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2988412663201352448
 GameObject:
   m_ObjectHideFlags: 0
