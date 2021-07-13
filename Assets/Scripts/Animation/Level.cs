@@ -12,7 +12,7 @@
     {
         _levelNumber = 0;
         _countWall = 5;
-        _wallSpeed = 50;
+        _wallSpeed = 100;
     }
 
     public void NextLevel()

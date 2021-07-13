@@ -1,6 +1,7 @@
 using GestureRecognizer;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManagerAnim : MonoBehaviour
 {
@@ -17,22 +18,30 @@ public class GameManagerAnim : MonoBehaviour
 
     public GesturePattern[] patterns;
 
+    private bool _canTry = true;
+
 
     private void Start()
     {
         StartCoroutine(GetGesturePattern());
         _winMark?.SetActive(false);
         _failMark?.SetActive(false);
+        _levelsManager.WallDestroy += CanTry;
     }
 
+    private void CanTry()
+    {
+        _canTry = true;
+    }
 
     public void OnRecognize(RecognitionResult result)
     {
-        if (result != RecognitionResult.Empty)
+        if (result != RecognitionResult.Empty && _canTry)
         {
             if (result.gesture.id == _gestureReference.pattern.id)
             {
                 Success();
+                _canTry = false;
             } 
             else
             {
@@ -44,6 +53,8 @@ public class GameManagerAnim : MonoBehaviour
     private void Success()
     {                
         _drawDetector.ClearLines();
+
+        _levelsManager.PlayerPose();
 
         StartCoroutine(GetGesturePattern());
         StartCoroutine(ShowMark(_winMark));

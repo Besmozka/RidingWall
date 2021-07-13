@@ -1,5 +1,5 @@
-
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
 public class LevelsManager : MonoBehaviour
@@ -15,21 +15,25 @@ public class LevelsManager : MonoBehaviour
 
     public GameObject spawnPoint;
 
+    public UnityAction WallDestroy;
+
     internal Level Level { get => _level; set => _level = value; }
+    public bool CanCreate { get => _canCreate; private set => _canCreate = value; }
 
     private void Start()
     {
         _player.animation.playAutomatically = false;
         Level = new Level();
 
-        _canCreate = true;
+        CanCreate = true;
     }
 
     private void Update()
     {
-        if (_canCreate)
+        if (CanCreate)
         {
-            CreateNewWall();
+            WallController wall = CreateNewWall();
+            SetNextAnimation(wall);
         }
 
         if (Level.LevelNumber == 10)
@@ -41,20 +45,29 @@ public class LevelsManager : MonoBehaviour
 
     private void EndRound()
     {
-
         Debug.Log("EndRound");
     }
 
-    private void CreateNewWall()
+    private WallController CreateNewWall()
     {
-        _canCreate = false;
+        CanCreate = false;
         var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
             .GetComponent<WallController>();
         wall.SetSpeed(Level.WallSpeed);
+        return wall;
+    }
 
+    private void SetNextAnimation(WallController wall)
+    {
         var nextAnimationIndex = Random.Range(0, _player.AnimationCount);
         wall.playerGhost.NextAnimation(nextAnimationIndex);
+        wall.playerGhost.NextPose();
         _player.NextAnimation(nextAnimationIndex);
+    }
+
+    public void PlayerPose()
+    {
+        _player.NextPose();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,7 +76,9 @@ public class LevelsManager : MonoBehaviour
         {
             Level.NextLevel();
             Destroy(other.gameObject);
-            _canCreate = true;
+            CanCreate = true;
+            WallDestroy.Invoke();
+            Debug.Log("WallDestroy");
         }
     }
 }

@@ -9,7 +9,6 @@ public class WallController : MonoBehaviour
     internal PlayerAnimController playerGhost;
     private Rigidbody _rigidbody;
     private bool _isGrounded;
-    [SerializeField]
     private float _speed;
 
 

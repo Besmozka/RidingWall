@@ -19,12 +19,14 @@ public class PlayerAnimController : MonoBehaviour
     void Awake()
     {
         animation = GetComponent<Animation>();
+        idleClip.legacy = true;
         animation.AddClip(idleClip, "Idle");
-        animation.Play("Idle");
         for (int i = 0; i < animations.Length; i++)
         {
-            animation.AddClip(animations[0], i.ToString());
+            animations[i].legacy = true;
+            animation.AddClip(animations[i], i.ToString());
         }
+        animation.Play("Idle");
     }
 
     public void NextPose()
@@ -48,6 +50,5 @@ public class PlayerAnimController : MonoBehaviour
     {
         _currentClip = animationIndex;
         _animationTime = animation.GetClip(_currentClip.ToString()).length / 2;
-        NextPose();
     }
 }
