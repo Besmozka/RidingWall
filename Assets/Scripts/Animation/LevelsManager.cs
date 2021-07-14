@@ -17,8 +17,10 @@ public class LevelsManager : MonoBehaviour
 
     public UnityAction WallDestroy;
 
+    internal int WallNumber { get; private set; }
     internal Level Level { get => _level; set => _level = value; }
     public bool CanCreate { get => _canCreate; private set => _canCreate = value; }
+
 
     private void Start()
     {
@@ -74,7 +76,12 @@ public class LevelsManager : MonoBehaviour
     {
         if (other.tag == "Wall")
         {
-            Level.NextLevel();
+            WallNumber++;
+            if (WallNumber == Level.CountWall)
+            {
+                Level.NextLevel();
+                WallNumber = 0;
+            }
             Destroy(other.gameObject);
             CanCreate = true;
             WallDestroy.Invoke();

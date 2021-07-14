@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0329009cbf4eeb643a25227f13595358
+guid: c75b31471a3a89e4fa76b349fc97783e
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -37,7 +37,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -75,30 +75,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips:
-  - 88f103c0350646040ab8f50cd6ace0f1
-  - 6d04b746aa0b1914c99834c52551a777
-  - 0ae03767990749f46ad538785594400f
-  - 434a45a042838b0429d0ff75e9b3d11f
-  - ef8904309f7140b449ff941656d282a7
-  - d43fcd43792e35345abc10e4ce64123c
-  - f871fec403722d14b867f072cc066c6c
-  - 3ce80e650d2e93d41b0afbc82f3e67bf
-  - c75b31471a3a89e4fa76b349fc97783e
-  - 973a6c4d7da4f3e4f879f22146f34b12
-  - 3d23201038d476445a73cdef11126bc8
-  - ac6c5a35449f0f440a1f981f0750ac8f
-  - 3a55a844354b1104d93cf7dd072da675
-  - e0c1d4ef05f68904ea1d2ba8da560a05
-  - 8b4541de6d474de42bf0fa3b58ca22e7
-  - c832fd40a72bf4d44bfdefc89aa1b21e
-  - e959dca95ab16024082772af58254221
-  - 534999e90c3030c4bb42af27dcb60c51
-  - f90d422ed01cab54c991433c37065ff6
-  - 00b4522de54c5f54b88c4b132f1534e2
-  - 70763b4c6516ab0459ec6035d7590b91
-  - bf9b312d190e56845af202868ee11599
-  - c4013ed88f4f99c4e916be602a3d342b
+  referencedClips: []
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
@@ -111,7 +88,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 5
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
