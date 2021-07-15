@@ -4,6 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BoxCollider))]
 public class LevelsManager : MonoBehaviour
 {
+    
     private Level _level;
 
     private bool _canCreate;
@@ -12,6 +13,8 @@ public class LevelsManager : MonoBehaviour
     private GameObject _wallPrefab;
     [SerializeField]
     private PlayerAnimController _player;
+    [SerializeField]
+    private CubeWallBuilder _cubeWallBuilder;
 
     public GameObject spawnPoint;
 
@@ -32,27 +35,25 @@ public class LevelsManager : MonoBehaviour
 
     private void Update()
     {
-        if (CanCreate)
-        {
-            WallController wall = CreateNewWall();
-            SetNextAnimation(wall);
-        }
-
-        if (Level.LevelNumber == 10)
+        if (Level.LevelNumber == 1)
         {
             EndRound();
             Level = new Level();
+        } else if (CanCreate)
+        {
+            WallController wall = CreateNewWall();
+            SetNextAnimation(wall);
+            CanCreate = false;
         }
     }
 
     private void EndRound()
     {
-        Debug.Log("EndRound");
+        _cubeWallBuilder.BuildWall();
     }
 
     private WallController CreateNewWall()
     {
-        CanCreate = false;
         var wall = Instantiate(_wallPrefab, spawnPoint.transform.position, _wallPrefab.transform.rotation)
             .GetComponent<WallController>();
         wall.SetSpeed(Level.WallSpeed);
@@ -83,9 +84,9 @@ public class LevelsManager : MonoBehaviour
                 WallNumber = 0;
             }
             Destroy(other.gameObject);
+
             CanCreate = true;
             WallDestroy.Invoke();
-            Debug.Log("WallDestroy");
         }
     }
 }

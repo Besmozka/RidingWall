@@ -11,7 +11,7 @@
     public Level()
     {
         _levelNumber = 0;
-        _countWall = 5;
+        _countWall = 1;
         _wallSpeed = 100;
     }
 
