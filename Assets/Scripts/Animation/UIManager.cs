@@ -6,9 +6,15 @@ public class UIManager : MonoBehaviour
 {
     public Text levelNumber;
     public Text wallNumber;
+    public Text endRound;
 
     [SerializeField]
     private LevelsManager _levelManager;
+
+    private void Start()
+    {
+        _levelManager.EndRoundEvent += DisplayEndRound;
+    }
 
     private void Update()
     {
@@ -21,5 +27,10 @@ public class UIManager : MonoBehaviour
         {
             wallNumber.text = _levelManager.WallNumber.ToString();
         }
+    }
+
+    private void DisplayEndRound()
+    {
+        endRound.gameObject.SetActive(true);
     }
 }

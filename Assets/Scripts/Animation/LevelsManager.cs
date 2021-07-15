@@ -18,7 +18,8 @@ public class LevelsManager : MonoBehaviour
 
     public GameObject spawnPoint;
 
-    public UnityAction WallDestroy;
+    public UnityAction WallDestroyEvent;
+    public UnityAction EndRoundEvent;
 
     internal int WallNumber { get; private set; }
     internal Level Level { get => _level; set => _level = value; }
@@ -35,11 +36,7 @@ public class LevelsManager : MonoBehaviour
 
     private void Update()
     {
-        if (Level.LevelNumber == 1)
-        {
-            EndRound();
-            Level = new Level();
-        } else if (CanCreate)
+        if (CanCreate)
         {
             WallController wall = CreateNewWall();
             SetNextAnimation(wall);
@@ -49,7 +46,7 @@ public class LevelsManager : MonoBehaviour
 
     private void EndRound()
     {
-        _cubeWallBuilder.BuildWall();
+        EndRoundEvent.Invoke();
     }
 
     private WallController CreateNewWall()
@@ -63,9 +60,10 @@ public class LevelsManager : MonoBehaviour
     private void SetNextAnimation(WallController wall)
     {
         var nextAnimationIndex = Random.Range(0, _player.AnimationCount);
-        wall.playerGhost.NextAnimation(nextAnimationIndex);
+        var animationTime = Random.Range(0.5f, 1.5f);
+        wall.playerGhost.NextAnimation(nextAnimationIndex, animationTime);
         wall.playerGhost.NextPose();
-        _player.NextAnimation(nextAnimationIndex);
+        _player.NextAnimation(nextAnimationIndex, animationTime);
     }
 
     public void PlayerPose()
@@ -83,10 +81,18 @@ public class LevelsManager : MonoBehaviour
                 Level.NextLevel();
                 WallNumber = 0;
             }
-            Destroy(other.gameObject);
+            if (Level.LevelNumber == 10)
+            {
+                EndRound();
+                Level = new Level();
+            }
+            else
+            {
+                CanCreate = true;
+            }
 
-            CanCreate = true;
-            WallDestroy.Invoke();
+            Destroy(other.gameObject);
+            WallDestroyEvent.Invoke();
         }
     }
 }

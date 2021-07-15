@@ -26,7 +26,7 @@ public class GameManagerAnim : MonoBehaviour
         StartCoroutine(GetGesturePattern());
         _winMark?.SetActive(false);
         _failMark?.SetActive(false);
-        _levelsManager.WallDestroy += CanTry;
+        _levelsManager.WallDestroyEvent += CanTry;
     }
 
     private void CanTry()

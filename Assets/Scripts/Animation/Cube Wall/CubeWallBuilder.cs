@@ -9,7 +9,7 @@ public class CubeWallBuilder : MonoBehaviour
     [SerializeField]
     private GameObject _spawnPoint;
 
-    private int wallWidth = 50;
+    private int wallWidth = 40;
     private int wallHeigth = 40;
 
     private float offsetStep = 0.25f;
@@ -19,30 +19,25 @@ public class CubeWallBuilder : MonoBehaviour
     {
         var parent = CreateParent();
 
-        float currentX;
-        float currentY = parent.position.y;
+        float currentX = parent.position.x - (wallWidth * offsetStep / 2);
         Vector3 currentPosition = parent.position;
+        currentPosition.x = currentX;
 
         for (int i = 0; i < wallHeigth; i++)
         {
-            currentX = parent.position.x - (wallWidth * offsetStep / 2);
-
             for (int j = 0; j < wallWidth; j++)
-            {
-                currentPosition.x = currentX;
+            {                
                 Instantiate(_cube, currentPosition, _cube.transform.rotation, parent);
-                currentX += offsetStep;
+                currentPosition.x += offsetStep;
             }
-
-            currentY += offsetStep;
-            currentPosition.y = currentY;
+            currentPosition.x = currentX;
+            currentPosition.y += offsetStep;
         }
     }
 
     Transform CreateParent()
     {
         GameObject wall = new GameObject();
-        wall.AddComponent<Rigidbody>();
         wall.AddComponent<CubeWallMovement>();
         wall.name = "CubeWall";
         wall.transform.position = _spawnPoint.transform.position;

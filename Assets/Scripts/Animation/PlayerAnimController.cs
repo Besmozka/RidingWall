@@ -37,7 +37,7 @@ public class PlayerAnimController : MonoBehaviour
     private IEnumerator TakePose()
     {
         animation.Play(_currentClip.ToString());
-        yield return new WaitForSecondsRealtime(_animationTime);
+        yield return new WaitForSeconds(_animationTime);
         animation.Stop();
     }
 
@@ -46,9 +46,9 @@ public class PlayerAnimController : MonoBehaviour
         animation.Play("Idle");
     }
 
-    public void NextAnimation(int animationIndex)
+    public void NextAnimation(int animationIndex, float animationTime)
     {
         _currentClip = animationIndex;
-        _animationTime = animation.GetClip(_currentClip.ToString()).length / 2;
+        _animationTime = animationTime;
     }
 }
