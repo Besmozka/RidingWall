@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class WallController : MonoBehaviour
 {
-    internal PlayerAnimController playerGhost;
+    internal PlayerController playerGhost;
     private Rigidbody _rigidbody;
     private bool _isGrounded;
     private float _speed;
@@ -15,7 +15,7 @@ public class WallController : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        playerGhost = GetComponentInChildren<PlayerAnimController>();
+        playerGhost = GetComponentInChildren<PlayerController>();
     }
 
     void Update()

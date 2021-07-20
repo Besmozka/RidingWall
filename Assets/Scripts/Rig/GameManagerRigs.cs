@@ -1,7 +1,7 @@
 using GestureRecognizer;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManagerRigs : MonoBehaviour
 {
     [SerializeField]
     private GesturePatternDraw _gestureReference;

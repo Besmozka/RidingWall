@@ -3,34 +3,30 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animation))]
-public class PlayerAnimController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {  
     public Animation animation;
 
-    private int _currentClip;
     public AnimationClip idleClip;
-    public AnimationClip[] animations;
 
-    internal int AnimationCount { get => animations.Length; }
-
-    private float _animationTime;
-    public float AnimationTime { get => _animationTime; set => _animationTime = value; }
 
     void Awake()
     {
         animation = GetComponent<Animation>();
+
         idleClip.legacy = true;
         animation.AddClip(idleClip, "Idle");
-        for (int i = 0; i < animations.Length; i++)
-        {
-            animations[i].legacy = true;
-            animation.AddClip(animations[i], i.ToString());
-        }
         animation.Play("Idle");
+
+        //for (int i = 0; i < animations.Length; i++)
+        //{
+        //    animations[i].legacy = true;
+        //    animation.AddClip(animations[i], i.ToString());
+        //}
     }
 
-    public void NextPose()
-    {
+    public void NextPose(Pose pose)
+    {        
         StartCoroutine(TakePose());
     }
 

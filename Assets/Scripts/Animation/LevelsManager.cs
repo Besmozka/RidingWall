@@ -12,7 +12,7 @@ public class LevelsManager : MonoBehaviour
     [SerializeField]
     private GameObject _wallPrefab;
     [SerializeField]
-    private PlayerAnimController _player;
+    private PlayerController _player;
     [SerializeField]
     private CubeWallBuilder _cubeWallBuilder;
 
@@ -78,8 +78,7 @@ public class LevelsManager : MonoBehaviour
             WallNumber++;
             if (WallNumber == Level.CountWall)
             {
-                Level.NextLevel();
-                WallNumber = 0;
+                LevelUp();
             }
             if (Level.LevelNumber == 10)
             {
@@ -94,5 +93,11 @@ public class LevelsManager : MonoBehaviour
             Destroy(other.gameObject);
             WallDestroyEvent.Invoke();
         }
+    }
+
+    private void LevelUp() 
+    {
+        Level.NextLevel();
+        WallNumber = 0;
     }
 }

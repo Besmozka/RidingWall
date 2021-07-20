@@ -1,9 +1,8 @@
 using GestureRecognizer;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class GameManagerAnim : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private GesturePatternDraw _gestureReference;
