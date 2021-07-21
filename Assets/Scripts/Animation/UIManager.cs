@@ -11,11 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private LevelsManager _levelManager;
 
-    private void Start()
-    {
-        _levelManager.EndRoundEvent += DisplayEndRound;
-    }
-
     private void Update()
     {
         if (_levelManager.Level.LevelNumber > Convert.ToInt32(levelNumber.text))

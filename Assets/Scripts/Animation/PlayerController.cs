@@ -5,46 +5,38 @@ using UnityEngine;
 [RequireComponent(typeof(Animation))]
 public class PlayerController : MonoBehaviour
 {  
-    public Animation animation;
+    private Animation animationComponent;
 
     public AnimationClip idleClip;
+
+    private Pose _currentPose;
 
 
     void Awake()
     {
-        animation = GetComponent<Animation>();
+        animationComponent = GetComponent<Animation>();
+        animationComponent.playAutomatically = false;
 
         idleClip.legacy = true;
-        animation.AddClip(idleClip, "Idle");
-        animation.Play("Idle");
-
-        //for (int i = 0; i < animations.Length; i++)
-        //{
-        //    animations[i].legacy = true;
-        //    animation.AddClip(animations[i], i.ToString());
-        //}
+        animationComponent.AddClip(idleClip, "Idle");
+        animationComponent.Play("Idle");
     }
 
     public void NextPose(Pose pose)
-    {        
+    {
+        _currentPose = pose;
         StartCoroutine(TakePose());
     }
 
     private IEnumerator TakePose()
     {
-        animation.Play(_currentClip.ToString());
-        yield return new WaitForSeconds(_animationTime);
-        animation.Stop();
+        animationComponent.Play(_currentPose.AnimationClip.ToString());
+        yield return new WaitForSeconds(_currentPose.AnimationTime);
+        animationComponent.Stop();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        animation.Play("Idle");
-    }
-
-    public void NextAnimation(int animationIndex, float animationTime)
-    {
-        _currentClip = animationIndex;
-        _animationTime = animationTime;
+        animationComponent.Play("Idle");
     }
 }
