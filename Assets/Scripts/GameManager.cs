@@ -6,13 +6,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {    
     [SerializeField]
-    private LevelsManager _levelsManager;
+    private WallManager _wallManager;
     [SerializeField]
     private PoseManager _poseManager;
     [SerializeField]
-    private GestureController _gestureController;
-
-    private PlayerController _player;
+    private GestureManager _gestureController;
+    [SerializeField]
+    private PlayerController _player;    
+    [SerializeField]
     private PlayerController _playerGhost;
 
     private Pose _pose;
@@ -22,15 +23,14 @@ public class GameManager : MonoBehaviour
     {
         if (other.tag == "Wall")
         {
-            _levelsManager.NextWall();
-            Destroy(other.gameObject);
+            _wallManager.DestroyWall();
         }
     }
 
-    public void StartGame()
+    public void Start()
     {
         _pose = _poseManager.GetPose();
-        _levelsManager.NextWall();
+        _wallManager.CreateNewWall();
         _player.NextPose(_pose);
         _playerGhost.NextPose(_pose);
     }

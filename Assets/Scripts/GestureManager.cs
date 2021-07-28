@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GestureController : MonoBehaviour
+public class GestureManager : MonoBehaviour
 {
     [SerializeField]
     private GesturePatternDraw _gestureReference;
@@ -55,7 +55,7 @@ public class GestureController : MonoBehaviour
     {
         _drawDetector.ClearLines();
         _failMark.SetActive(true);
-    } 
+    }
 
     private void HideMarks()
     {

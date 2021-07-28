@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class WallController : MonoBehaviour
 {
-    internal PlayerController playerGhost;
     private GameObject _spawnPoint;
     private Rigidbody _rigidbody;
     private bool _canMove;
@@ -16,7 +15,6 @@ public class WallController : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        playerGhost = GetComponentInChildren<PlayerController>();
         _spawnPoint = GameObject.FindGameObjectWithTag("WallSpawnPoint");
 
         _canMove = false;
@@ -33,7 +31,7 @@ public class WallController : MonoBehaviour
         }
     }
 
-    public void SetSpeed(int speed) => _speed = speed;
+    public void SetSpeed(float speed) => _speed = speed;
 
     public void CanMove()
     {
