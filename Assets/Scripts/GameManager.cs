@@ -1,4 +1,3 @@
-using GestureRecognizer;
 using System.Collections;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PoseManager _poseManager;
     [SerializeField]
-    private GestureManager _gestureController;
+    private GestureManager _gestureManager;
     [SerializeField]
     private PlayerController _player;    
     [SerializeField]
@@ -19,19 +18,39 @@ public class GameManager : MonoBehaviour
     private Pose _pose;
 
 
+    public void Start()
+    {
+        _gestureManager.WinEvent += Win;
+        _gestureManager.FailEvent += Fail;
+
+        StartCoroutine(NewPose());
+    }
+
+    private IEnumerator NewPose()
+    {
+        _pose = _poseManager.GetPose();
+        _playerGhost.NextPose(_pose);
+        yield return new WaitForSecondsRealtime(_pose.AnimationTime);
+        _gestureManager.NextGesturePattern();
+        _wallManager.CreateNewWall();
+    }
+
+    private void Win()
+    {
+        _player.NextPose(_pose);
+    }
+
+    private void Fail()
+    {
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Wall")
         {
             _wallManager.DestroyWall();
+            StartCoroutine(NewPose());
         }
-    }
-
-    public void Start()
-    {
-        _pose = _poseManager.GetPose();
-        _wallManager.CreateNewWall();
-        _player.NextPose(_pose);
-        _playerGhost.NextPose(_pose);
     }
 }

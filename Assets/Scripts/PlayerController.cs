@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
     public void NextPose(Pose pose)
     {
         _currentPose = pose;
+        if (animationComponent.GetClip(_currentPose.AnimationClip.ToString()) == null)
+        {
+            animationComponent.AddClip(_currentPose.AnimationClip, _currentPose.AnimationClip.ToString());
+        }
         StartCoroutine(TakePose());
     }
 

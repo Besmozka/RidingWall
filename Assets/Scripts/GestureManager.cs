@@ -1,6 +1,5 @@
 using GestureRecognizer;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GestureManager : MonoBehaviour
@@ -16,11 +15,12 @@ public class GestureManager : MonoBehaviour
 
     public GesturePattern[] patterns;
 
+    internal Action WinEvent;
+    internal Action FailEvent;
 
     private void Start()
     {
-        GetGesturePattern();
-        HideMarks();
+        NextGesturePattern();
     }
 
     public void OnRecognize(RecognitionResult result)
@@ -29,32 +29,30 @@ public class GestureManager : MonoBehaviour
         {
             if (result.gesture.id == _gestureReference.pattern.id)
             {
-                Success();
+                WinEvent.Invoke();
+                DisplayMark(_winMark);  
             }
             else
             {
-                Fail();
+                FailEvent.Invoke();
+                DisplayMark(_failMark);
             }
         }
     }
 
-    private void GetGesturePattern()
+    internal void NextGesturePattern()
     {
-        _gestureReference.pattern = patterns[Random.Range(0, patterns.Length - 1)];
+        _gestureReference.pattern = patterns[UnityEngine.Random.Range(0, patterns.Length - 1)];
         _drawDetector.ClearLines();
+        _gestureReference.enabled = false;
         _gestureReference.enabled = true;
+
+        HideMarks();
     }
 
-    private void Success()
+    private void DisplayMark(GameObject mark)
     {
-        _drawDetector.ClearLines(); //зарефакторить в первый IF
-        _winMark.SetActive(true);
-    }
-
-    private void Fail()
-    {
-        _drawDetector.ClearLines();
-        _failMark.SetActive(true);
+        mark.SetActive(true);
     }
 
     private void HideMarks()
